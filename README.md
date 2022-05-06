@@ -8,5 +8,5 @@ npm install
 
 ### Starting api locally
 ```
-node app.js
+npm run dev
 ```
