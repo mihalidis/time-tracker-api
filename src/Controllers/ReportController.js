@@ -14,9 +14,9 @@ const getAllReports = (req, res) => {
     })
 };
 
-const getOneReport = (req, res) => {
+/*const getOneReport = (req, res) => {
     res.send("Get an existing report");
-};
+};*/
 
 const createNewReport = (req, res) => {
     res.send("Create a new report");
@@ -32,7 +32,7 @@ const deleteOneReport = (req, res) => {
 
 module.exports = {
     getAllReports,
-    getOneReport,
+    /*getOneReport,*/
     createNewReport,
     updateOneReport,
     deleteOneReport,
