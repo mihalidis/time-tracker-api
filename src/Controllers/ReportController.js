@@ -14,9 +14,13 @@ const getAllReports = (req, res) => {
     })
 };
 
-/*const getOneReport = (req, res) => {
+const getOneReport = (req, res) => {
+    Report.find({},(err,allReports) => {
+        if (err) throw err;
+        res.send({ status: "OK", data: allReports });
+    })
     res.send("Get an existing report");
-};*/
+};
 
 const createNewReport = (req, res) => {
     res.send("Create a new report");
