@@ -15,9 +15,9 @@ const getAllReports = (req, res) => {
 };
 
 const getOneReport = (req, res) => {
-    Report.find({},(err,report) => {
-        console.log(report);
-        res.send({ data: allReports });
+    Report.find({},(err,allReports) => {
+        if (err) throw err;
+        res.send({ status: "OK", data: allReports });
     })
     res.send("Get an existing report");
 };
