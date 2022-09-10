@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 
 require('../Database/DBConnection');
 
-const { ReportSchema } = require('../models/reportSchema');
+const { ReportSchema, ReportDetailSchema } = require('../models/reportSchema');
 
-const Report = mongoose.model("Report",ReportSchema)
+const Report = mongoose.model("Report",ReportSchema);
+const ReportDetail = mongoose.model("ReportDetail", ReportDetailSchema);
 
 const getAllReports = (req, res) => {
     Report.find({},(err,allReports) => {
@@ -14,18 +15,34 @@ const getAllReports = (req, res) => {
     })
 };
 
+const getUserReports = (req, res) => {
+    Report.findOne({_id: req.params.userId}, (err, reports) => {
+        if (err) throw err;
+        res.send({status: "OK", data: reports});
+    })
+}
+
 const getOneReport = (req, res) => {
-    res.send("Get an existing report");
+    Report.findOne({_id: req.params.userId}, (err, reports) => {
+        if (err) throw err;
+        const report = reports.log.filter(item => item.id === req.params.reportId);
+        res.send({status: "OK", data: report});
+    })
 };
 
 const createNewReport = (req, res) => {
-    const newReport = new Report({
-        "username": "test",
-        "log": [{"title":"testss","duration":566, "created_date": Date.now()}]
+    const newReport = new ReportDetail({
+        "title":req.body.title,
+        "duration":req.body.duration,
+        "created_date": Date.now()
     });
 
-    newReport.save();
-    res.json(newReport);
+    Report.findOne({_id: req.params.userId}, (err, reports) => {
+        if (err) throw err;
+        reports.log.push(newReport);
+        reports.save();
+        res.json(reports);
+    })
 };
 
 const updateOneReport = (req, res) => {
@@ -42,4 +59,5 @@ module.exports = {
     createNewReport,
     updateOneReport,
     deleteOneReport,
+    getUserReports
 };

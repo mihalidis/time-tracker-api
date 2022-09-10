@@ -21,4 +21,4 @@ const ReportSchema = new mongoose.Schema({
     log: [ReportDetailSchema]
 });
 
-module.exports = { ReportSchema };
+module.exports = { ReportSchema, ReportDetailSchema };

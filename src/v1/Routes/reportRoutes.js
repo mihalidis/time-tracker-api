@@ -5,12 +5,14 @@ const router = express.Router();
 
 router.get("/", ReportController.getAllReports);
 
-router.get("/:reportId", ReportController.getOneReport);
+router.get("/:userId", ReportController.getUserReports);
 
-router.post("/", ReportController.createNewReport);
+router.get("/:userId/:reportId", ReportController.getOneReport);
 
-router.patch("/:reportId", ReportController.updateOneReport);
+router.post("/:userId", ReportController.createNewReport);
 
-router.delete("/:reportId", ReportController.deleteOneReport);
+router.patch("/:userId/:reportId", ReportController.updateOneReport);
+
+router.delete("/:userId/:reportId", ReportController.deleteOneReport);
 
 module.exports = router;
