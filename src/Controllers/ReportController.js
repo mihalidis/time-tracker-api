@@ -18,7 +18,8 @@ const getAllReports = (req, res) => {
 const getUserReports = (req, res) => {
     Report.findOne({_id: req.params.userId}, (err, reports) => {
         if (err) throw err;
-        res.send({status: "OK", data: reports});
+
+        res.send({status: "OK", data: reports.log.filter(report => report.isDeleted === false)});
     })
 }
 
@@ -46,11 +47,27 @@ const createNewReport = (req, res) => {
 };
 
 const updateOneReport = (req, res) => {
-    res.send("Update an existing report");
+    Report.findOne({_id: req.params.userId}, (err, reports) => {
+        if (err) throw err;
+        const report = reports.log.find(report => report._id.valueOf() === req.params.reportId);
+        if(!!report) {
+            report.duration = req.body.duration;
+        }
+        reports.save();
+        res.json(reports);
+    });
 };
 
 const deleteOneReport = (req, res) => {
-    res.send("Delete an existing report");
+    Report.findOne({_id: req.params.userId}, (err, reports) => {
+        if (err) throw err;
+        const report = reports.log.find(report => report._id.valueOf() === req.params.reportId);
+        if(!!report) {
+            report.isDeleted = true;
+        }
+        reports.save();
+        res.json(reports);
+    });
 };
 
 module.exports = {
