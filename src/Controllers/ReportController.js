@@ -11,6 +11,7 @@ const ReportDetail = mongoose.model("ReportDetail", ReportDetailSchema);
 const getAllReports = (req, res) => {
     Report.find({},(err,allReports) => {
         if (err) throw err;
+        res.header("Access-Control-Allow-Origin", "*");
         res.send({ status: "OK", data: allReports });
     })
 };
@@ -18,7 +19,7 @@ const getAllReports = (req, res) => {
 const getUserReports = (req, res) => {
     Report.findOne({_id: req.params.userId}, (err, reports) => {
         if (err) throw err;
-
+        res.header("Access-Control-Allow-Origin", "*");
         res.send({status: "OK", data: reports.log.filter(report => report.isDeleted === false)});
     })
 }
@@ -27,6 +28,7 @@ const getOneReport = (req, res) => {
     Report.findOne({_id: req.params.userId}, (err, reports) => {
         if (err) throw err;
         const report = reports.log.filter(item => item.id === req.params.reportId);
+        res.header("Access-Control-Allow-Origin", "*");
         res.send({status: "OK", data: report});
     })
 };
@@ -42,6 +44,7 @@ const createNewReport = (req, res) => {
         if (err) throw err;
         reports.log.push(newReport);
         reports.save();
+        res.header("Access-Control-Allow-Origin", "*");
         res.json(reports);
     })
 };
@@ -54,6 +57,7 @@ const updateOneReport = (req, res) => {
             report.duration = req.body.duration;
         }
         reports.save();
+        res.header("Access-Control-Allow-Origin", "*");
         res.json(reports);
     });
 };
@@ -66,6 +70,7 @@ const deleteOneReport = (req, res) => {
             report.isDeleted = true;
         }
         reports.save();
+        res.header("Access-Control-Allow-Origin", "*");
         res.json(reports);
     });
 };
